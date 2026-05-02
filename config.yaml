@@ -1,0 +1,115 @@
+app:
+  log_level: ${LOG_LEVEL:-INFO}
+  input_path: ${INPUT_PATH:-./input/}
+  output_dir: ${OUTPUT_PATH:-./output/}
+  default_entry: ${DEFAULT_ENTRY:-ai_self_check}
+
+flows:
+  excel_ai:
+    input_file: ${EXCEL_INPUT_FILE:-}
+    sheet_name: ${EXCEL_SHEET_NAME:-}
+    workbooks: ${EXCEL_WORKBOOK_SHEETS_JSON:-}
+    max_rows: ${EXCEL_MAX_ROWS:-80}
+    max_cols: ${EXCEL_MAX_COLS:-30}
+    max_cell_chars: ${EXCEL_MAX_CELL_CHARS:-200}
+    max_total_chars: ${EXCEL_MAX_TOTAL_CHARS:-24000}
+    header_row: ${EXCEL_HEADER_ROW:-3}
+    data_start_row: ${EXCEL_DATA_START_ROW:-4}
+    problem_column: ${EXCEL_PROBLEM_COLUMN:-E}
+    category_header: ${EXCEL_CATEGORY_HEADER:-AI整理归类项}
+    draft_output_path: ${CATEGORY_DRAFT_OUTPUT_PATH:-./output/category_skills_draft.md}
+    draft_max_rows_per_sheet: ${CATEGORY_DRAFT_MAX_ROWS_PER_SHEET:-20}
+    draft_max_context_chars: ${CATEGORY_DRAFT_MAX_CONTEXT_CHARS:-900}
+    draft_max_tokens: ${CATEGORY_DRAFT_MAX_TOKENS:-4096}
+    classify_max_context_chars: ${EXCEL_CLASSIFY_MAX_CONTEXT_CHARS:-1000}
+    classify_max_tokens: ${EXCEL_CLASSIFY_MAX_TOKENS:-32}
+    seed_categories: ${CATEGORY_SEED_CATEGORIES_JSON:-[]}
+    prompt: ${EXCEL_AI_PROMPT:-}
+    max_tokens: ${EXCEL_AI_MAX_TOKENS:-512}
+    timeout_sec: ${EXCEL_AI_TIMEOUT_SEC:-360}
+    output_path: ${EXCEL_AI_OUTPUT_PATH:-./output/excel_ai_response.md}
+  scan:
+    input_file_type: ${INPUT_FILE_TYPE:-auto}
+  report:
+    input_file_type: ${INPUT_FILE_TYPE:-auto}
+    report_name: ${REPORT_NAME:-report}
+  export:
+    output_format: ${EXPORT_OUTPUT_FORMAT:-xlsx}
+
+llamacpp:
+  base_url: ${LLAMACPP_BASE_URL:-http://127.0.0.1:8080/v1}
+  model: ${LLAMACPP_MODEL:-local-model}
+  api_key: ${LLAMACPP_API_KEY:-}
+  timeout_sec: ${LLAMACPP_TIMEOUT_SEC:-120}
+  max_tokens: ${LLAMACPP_MAX_TOKENS:-4096}
+  temperature: ${LLAMACPP_TEMPERATURE:-0}
+  autostart: ${LLAMACPP_AUTOSTART:-true}
+  server_path: ${LLAMACPP_SERVER_PATH:-}
+  model_path: ${LLAMACPP_MODEL_PATH:-}
+  mmproj_path: ${LLAMACPP_MMPROJ_PATH:-}
+  extra_dll_dirs: ${LLAMACPP_EXTRA_DLL_DIRS:-}
+  n_gpu_layers: ${LLAMACPP_N_GPU_LAYERS:-999}
+  ctx_size: ${LLAMACPP_CTX_SIZE:-8192}
+  reasoning: ${LLAMACPP_REASONING:-off}
+  reasoning_budget: ${LLAMACPP_REASONING_BUDGET:-0}
+  startup_timeout_sec: ${LLAMACPP_STARTUP_TIMEOUT_SEC:-180}
+  startup_poll_interval_sec: ${LLAMACPP_STARTUP_POLL_INTERVAL_SEC:-1}
+  stdout_log_path: ${LLAMACPP_STDOUT_LOG_PATH:-./log/llama_server.out.log}
+  stderr_log_path: ${LLAMACPP_STDERR_LOG_PATH:-./log/llama_server.err.log}
+
+input_file: ${INPUT_FILE:-}
+input_path: ${INPUT_PATH:-./input/}
+output_path: ${OUTPUT_PATH:-./output/}
+split_input_file: ${SPLIT_INPUT_FILE:-}
+split_output_path: ${SPLIT_OUTPUT_PATH:-./output/}
+rename_input_path: ${RENAME_INPUT_PATH:-./output/}
+approval_form_input_path: ${APPROVAL_FORM_INPUT_PATH:-./output/}
+approval_form_prefix: ${APPROVAL_FORM_PREFIX:-审批单_}
+approval_form_excel_path: ${APPROVAL_FORM_EXCEL_PATH:-}
+png_ocr_input_path: ${PNG_OCR_INPUT_PATH:-./input/}
+png_ocr_output_txt_path: ${PNG_OCR_OUTPUT_TXT_PATH:-./output/png_ocr_regex_matches.txt}
+# OCR 配置
+ocr:
+  engine: ${OCR_ENGINE:-llamacpp}
+  use_gpu: ${OCR_USE_GPU:-true}
+  gpu_mem: ${OCR_GPU_MEM:-8000}
+  use_angle_cls: ${OCR_USE_ANGLE_CLS:-true}
+  lang: ${OCR_LANG:-ch}
+  det_limit_side_len: ${OCR_DET_LIMIT_SIDE_LEN:-2500} # 增加检测范围，提高 OCR 准确率
+  llamacpp_base_url: ${LLAMACPP_BASE_URL:-http://127.0.0.1:8080/v1}
+  llamacpp_model: ${LLAMACPP_MODEL:-local-model}
+  llamacpp_api_key: ${LLAMACPP_API_KEY:-}
+  llamacpp_timeout_sec: ${LLAMACPP_TIMEOUT_SEC:-120}
+  llamacpp_max_tokens: ${LLAMACPP_MAX_TOKENS:-4096}
+  llamacpp_temperature: ${LLAMACPP_TEMPERATURE:-0}
+  llamacpp_image_max_side: ${LLAMACPP_IMAGE_MAX_SIDE:-1800}
+  llamacpp_autostart: ${LLAMACPP_AUTOSTART:-true}
+  llamacpp_server_path: ${LLAMACPP_SERVER_PATH:-}
+  llamacpp_model_path: ${LLAMACPP_MODEL_PATH:-}
+  llamacpp_mmproj_path: ${LLAMACPP_MMPROJ_PATH:-}
+  llamacpp_n_gpu_layers: ${LLAMACPP_N_GPU_LAYERS:-999}
+  llamacpp_startup_timeout_sec: ${LLAMACPP_STARTUP_TIMEOUT_SEC:-180}
+  llamacpp_startup_poll_interval_sec: ${LLAMACPP_STARTUP_POLL_INTERVAL_SEC:-1}
+  llamacpp_stdout_log_path: ${LLAMACPP_STDOUT_LOG_PATH:-./log/llama_server.out.log}
+  llamacpp_stderr_log_path: ${LLAMACPP_STDERR_LOG_PATH:-./log/llama_server.err.log}
+  llamacpp_ocr_prompt: "${LLAMACPP_OCR_PROMPT:-Perform OCR on this image and return only the recognized text. Preserve line breaks as much as possible. Do not summarize, explain, translate, or add markdown. If no readable text is visible, return an empty string.}"
+  # 切分配置
+  split_keywords:
+    - "附件1"
+    - "北京北辰会展投资有限公司"
+    - "设计变更审批表"
+    # - "设计变更通知单"
+  not_split_keywords:
+    - "旧编号"
+
+regex_pattern:
+  # 主体
+  # - "^190643GC-([a-zA-Z0-9]{4})-(\\d{1})"
+  # - "^(\\d{2})-(\\d{2})-(C2)-(\\d{3})-(C|E)"
+  
+  #  B24
+  - "^(JZ)-(\\d{2})-(\\d{2})-(C2)-(\\d{3})"
+  - "^(\\d{2})-(\\d{2})-(C2)-(\\d{3})"
+  - "^R20-03-Z-(\\d{2})"
+  - "^泳池变更-(\\d{2})"
+  - "^251614GC-([a-zA-Z0-9]{4})-(\\d{1})"
