@@ -115,6 +115,14 @@ $env:PYTHONIOENCODING='utf-8'
 .\.venv\Scripts\python.exe -u .\approval_pdf_summary.py
 ```
 
+常用选项：
+
+- `--dry-run`：只输出扫描和计划写入结果，不保存 Excel。
+- `--no-append-missing`：PDF 中识别到、但 Excel 里不存在的编号不追加新行。
+- `--clear-missing`：当 Excel 中已有审批单状态、但目录中找不到对应 PDF 时，清空该状态。默认不清空。
+- `--no-backup`：保存前不生成备份文件。默认会在目标 Excel 同目录生成 `*.backup_YYYYMMDD_HHMMSS.xlsx`。
+- `--pdf-dir`、`--excel`：临时覆盖 `.approval_pdf_summary.env` 中的目录和目标 Excel 路径。
+
 输出文件命名示例：
 
 ```text
