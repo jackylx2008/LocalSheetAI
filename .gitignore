@@ -141,6 +141,7 @@ celerybeat.pid
 # Environments
 .env
 common.env
+.approval_pdf_summary.env
 .venv
 env/
 venv/
